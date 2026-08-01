@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Escala de Acólitos — Agosto de 2026</title>
+<style>
+  :root{
+    --azul-mariano: #1a3d6d;
+    --azul-mariano-2: #2c5aa0;
+    --azul-claro: #eaf1fb;
+    --dourado: #c9a24b;
+    --dourado-claro: #f1e2b8;
+    --branco: #ffffff;
+    --texto: #1f2937;
+    --texto-suave: #5b6472;
+    --sombra: 0 10px 30px rgba(26,61,109,0.12);
+    --radius: 18px;
+    --bg-grad: linear-gradient(160deg, #eef4fc 0%, #f7f3ea 45%, #eaf1fb 100%);
+    --card-bg: #ffffff;
+    --header-grad: linear-gradient(120deg, #16305a 0%, #274d8c 55%, #3a6bb5 100%);
+  }
+
+  [data-theme="dark"]{
+    --azul-mariano: #9ec1ff;
+    --azul-mariano-2: #6f9be0;
+    --azul-claro: #16223a;
+    --dourado: #e0c26e;
+    --dourado-claro: #3a3320;
+    --branco: #101828;
+    --texto: #eef2ff;
+    --texto-suave: #b7c0d4;
+    --sombra: 0 10px 30px rgba(0,0,0,0.45);
+    --bg-grad: linear-gradient(160deg, #0b1424 0%, #131b2e 50%, #0d1626 100%);
+    --card-bg: #17233c;
+    --header-grad: linear-gradient(120deg, #0b1a33 0%, #16305a 55%, #1f3f74 100%);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family: 'Georgia', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg-grad);
+    color: var(--texto);
+    min-height:100vh;
+    transition: background .4s ease, color .4s ease;
+    padding-bottom: 60px;
+  }
+
+  /* ---------- Ornamentos discretos de fundo ---------- */
+  .ornamento{
+    position: fixed;
+    opacity: 0.06;
+    pointer-events:none;
+    z-index:0;
+  }
+  [data-theme="dark"] .ornamento{ opacity:0.08; }
+  .orn-1{ top: -60px; right: -60px; width: 260px; }
+  .orn-2{ bottom: -40px; left: -60px; width: 220px; }
+
+  /* ---------- Cabeçalho ---------- */
+  header{
+    position:relative;
+    background: var(--header-grad);
+    color: #fff;
+    padding: 52px 20px 90px;
+    text-align:center;
+    overflow:hidden;
+    box-shadow: var(--sombra);
+  }
+  header::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(255,255,255,0.08) 0, transparent 35%),
+      radial-gradient(circle at 85% 75%, rgba(255,255,255,0.07) 0, transparent 40%);
+  }
+  .estrela-topo{
+    width: 34px; height:34px;
+    margin: 0 auto 14px;
+    opacity: 0.95;
+  }
+  header h1{
+    margin: 0 0 6px;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    position:relative;
+  }
+  header .subtitulo{
+    font-size: 1rem;
+    color: var(--dourado-claro);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    position:relative;
+  }
+  header .versiculo{
+    font-style: italic;
+    color: rgba(255,255,255,0.85);
+    max-width: 560px;
+    margin: 14px auto 0;
+    font-size: 0.95rem;
+    position: relative;
+  }
+  .linha-dourada{
+    width: 90px; height: 3px;
+    background: linear-gradient(90deg, transparent, var(--dourado), transparent);
+    margin: 18px auto 0;
+    position:relative;
+  }
+
+  /* ---------- Barra de controles (flutuante) ---------- */
+  .painel-controles{
+    max-width: 980px;
+    margin: -55px auto 30px;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--sombra);
+    padding: 22px 24px;
+    position: relative;
+    z-index: 5;
+    border: 1px solid rgba(201,162,75,0.25);
+  }
+  .linha-controles{
+    display:flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items:center;
+  }
+  .campo-busca{
+    flex: 1 1 240px;
+    position: relative;
+  }
+  .campo-busca input{
+    width:100%;
+    padding: 12px 16px 12px 42px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(26,61,109,0.18);
+    background: var(--azul-claro);
+    color: var(--texto);
+    font-size: 0.95rem;
+    outline: none;
+    transition: border .25s, box-shadow .25s;
+  }
+  .campo-busca input:focus{
+    border-color: var(--dourado);
+    box-shadow: 0 0 0 3px rgba(201,162,75,0.2);
+  }
+  .campo-busca .icone-busca{
+    position:absolute; left:14px; top:50%; transform:translateY(-50%);
+    width:18px; height:18px; opacity:0.55;
+  }
+  select{
+    padding: 11px 14px;
+    border-radius: 999px;
+    border: 1.5px solid rgba(26,61,109,0.18);
+    background: var(--azul-claro);
+    color: var(--texto);
+    font-size: 0.9rem;
+    cursor:pointer;
+    outline:none;
+  }
+  select:focus{ border-color: var(--dourado); }
+
+  .botoes-acao{
+    display:flex; gap:10px; flex-wrap:wrap;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:7px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: none;
+    background: var(--azul-mariano);
+    color:#fff;
+    font-size: 0.85rem;
+    cursor:pointer;
+    transition: transform .2s, box-shadow .2s, opacity .2s;
+    font-weight:500;
+  }
+  .btn:hover{ transform: translateY(-2px); box-shadow: 0 6px 14px rgba(26,61,109,0.25); }
+  .btn.dourado{ background: linear-gradient(120deg, var(--dourado), #b8933f); color:#3a2c05; }
+  .btn.outline{
+    background: transparent;
+    border: 1.5px solid var(--azul-mariano-2);
+    color: var(--azul-mariano-2);
+  }
+  [data-theme="dark"] .btn.outline{ color: var(--azul-mariano); border-color: var(--azul-mariano); }
+
+  .contagem-resultados{
+    text-align:center;
+    color: var(--texto-suave);
+    font-size: 0.85rem;
+    margin-top: 14px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ---------- Conteúdo ---------- */
+  main{ max-width: 980px; margin: 0 auto; padding: 0 20px; position:relative; z-index:1; }
+
+  .bloco-local{
+    margin-bottom: 46px;
+  }
+  .titulo-local{
+    display:flex; align-items:center; gap:12px;
+    margin: 34px 0 20px;
+  }
+  .titulo-local h2{
+    font-size: 1.3rem;
+    color: var(--azul-mariano);
+    margin:0;
+    font-weight:600;
+  }
+  .titulo-local .icone-igreja{ width:26px; height:26px; flex-shrink:0; color: var(--dourado); }
+  .titulo-local::after{
+    content:"";
+    flex:1;
+    height:1px;
+    background: linear-gradient(90deg, rgba(201,162,75,0.5), transparent);
+  }
+
+  .grade-cards{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .card{
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--sombra);
+    padding: 22px;
+    border: 1px solid rgba(201,162,75,0.18);
+    position: relative;
+    overflow:hidden;
+    animation: surgir .5s ease both;
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 16px 34px rgba(26,61,109,0.18);
+  }
+  .card::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:4px;
+    background: linear-gradient(90deg, var(--azul-mariano), var(--dourado), var(--azul-mariano-2));
+  }
+  @keyframes surgir{
+    from{ opacity:0; transform: translateY(14px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+
+  .card-data{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom: 10px;
+  }
+  .card-data .dia-mes{
+    font-size: 1.6rem;
+    font-weight:700;
+    color: var(--azul-mariano);
+    line-height:1;
+  }
+  .card-data .dia-semana{
+    display:block;
+    font-size: 0.72rem;
+    text-transform:uppercase;
+    letter-spacing: 1.5px;
+    color: var(--dourado);
+    margin-top: 4px;
+    font-weight:600;
+  }
+  .selo-mes{
+    font-size: 0.68rem;
+    color: var(--texto-suave);
+    background: var(--azul-claro);
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space:nowrap;
+  }
+
+  .celebracao{
+    font-size: 0.85rem;
+    color: var(--texto-suave);
+    font-style: italic;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px dashed rgba(201,162,75,0.35);
+  }
+
+  .horario-item{
+    margin-bottom: 14px;
+  }
+  .horario-item:last-child{ margin-bottom:0; }
+  .horario-cabecalho{
+    display:flex; align-items:center; gap:8px;
+    margin-bottom: 8px;
+  }
+  .badge-hora{
+    background: var(--azul-mariano);
+    color:#fff;
+    font-weight:700;
+    font-size: 0.85rem;
+    padding: 5px 12px;
+    border-radius: 999px;
+    letter-spacing: 0.4px;
+  }
+  .lista-servidores{
+    list-style:none;
+    margin:0; padding:0;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+  }
+  .lista-servidores li{
+    display:flex;
+    align-items:center;
+    gap:9px;
+    font-size: 0.88rem;
+    padding: 6px 10px;
+    background: var(--azul-claro);
+    border-radius: 10px;
+  }
+  .avatar-inicial{
+    width: 24px; height:24px;
+    border-radius:50%;
+    background: linear-gradient(135deg, var(--dourado), var(--azul-mariano-2));
+    color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-size: 0.7rem;
+    font-weight:700;
+    flex-shrink:0;
+  }
+  .nome-servidor{ font-weight:600; color: var(--texto); }
+  .funcao-servidor{
+    color: var(--texto-suave);
+    font-size: 0.76rem;
+  }
+  .a-definir .avatar-inicial{ background: #b0b8c4; }
+  .a-definir .nome-servidor{ color: var(--texto-suave); font-style: italic; font-weight:500; }
+
+  .evento-especial{
+    background: var(--dourado-claro);
+    color: #6b5417;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight:600;
+    text-align:center;
+  }
+  [data-theme="dark"] .evento-especial{ color: #e9d48f; }
+
+  .card.oculto{ display:none; }
+  .destaque{
+    background: rgba(201,162,75,0.35);
+    border-radius: 3px;
+    padding: 0 2px;
+  }
+
+  .sem-resultados{
+    text-align:center;
+    padding: 60px 20px;
+    color: var(--texto-suave);
+  }
+  .sem-resultados svg{ width:50px; height:50px; opacity:0.4; margin-bottom:14px; }
+
+  footer{
+    text-align:center;
+    padding: 40px 20px 10px;
+    color: var(--texto-suave);
+    font-size: 0.8rem;
+  }
+  footer .frase{
+    font-style: italic;
+    color: var(--azul-mariano-2);
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+  }
+
+  /* Toggle dark mode */
+  .toggle-tema{
+    position: fixed;
+    top: 20px; right: 20px;
+    z-index: 20;
+    background: rgba(255,255,255,0.15);
+    border: 1.5px solid rgba(255,255,255,0.4);
+    color: #fff;
+    width: 44px; height:44px;
+    border-radius:50%;
+    cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+    backdrop-filter: blur(6px);
+    transition: transform .3s;
+  }
+  .toggle-tema:hover{ transform: scale(1.08); }
+  .toggle-tema svg{ width:20px; height:20px; }
+
+  /* Impressão */
+  @media print{
+    .toggle-tema, .painel-controles, header .versiculo, .estrela-topo, .ornamento{ display:none !important; }
+    body{ background: #fff !important; }
+    header{ background: #1a3d6d !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; padding: 20px; }
+    .card{ box-shadow:none; border:1px solid #ccc; break-inside: avoid; }
+    .grade-cards{ grid-template-columns: repeat(2, 1fr); }
+    main{ max-width:100%; }
+  }
+
+  @media (max-width: 560px){
+    header{ padding: 40px 16px 80px; }
+    .linha-controles{ flex-direction:column; align-items:stretch; }
+    .botoes-acao{ justify-content:center; }
+    .grade-cards{ grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body data-theme="light">
+
+<svg class="ornamento orn-1" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50 5 L54 40 L90 44 L54 48 L50 90 L46 48 L10 44 L46 40 Z" fill="#c9a24b"/>
+</svg>
+<svg class="ornamento orn-2" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50 10 C 30 10 15 25 15 45 C15 65 30 85 50 92 C70 85 85 65 85 45 C85 25 70 10 50 10 Z" fill="none" stroke="#1a3d6d" stroke-width="2"/>
+  <path d="M50 25 L50 65 M35 40 L65 40" stroke="#1a3d6d" stroke-width="2"/>
+</svg>
+
+<button class="toggle-tema" id="btnTema" title="Alternar modo claro/escuro" aria-label="Alternar tema">
+  <svg id="iconeTema" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-5.4-5.4c0-1.81.91-3.4 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>
+</button>
+
+<header>
+  <svg class="estrela-topo" viewBox="0 0 24 24" fill="#f1e2b8" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2 L14.5 8.5 L21 9.3 L16 13.7 L17.5 20.3 L12 16.8 L6.5 20.3 L8 13.7 L3 9.3 L9.5 8.5 Z"/>
+  </svg>
+  <div class="subtitulo">Sob o manto de Nossa Senhora</div>
+  <h1>Escala de Acólitos</h1>
+  <div class="subtitulo" style="font-size:1.4rem; letter-spacing:1px; text-transform:none; color:#fff; font-weight:300;">Agosto de 2026</div>
+  <div class="linha-dourada"></div>
+  <p class="versiculo">"Eis a serva do Senhor. Faça-se em mim segundo a Tua palavra." — Lc 1,38</p>
+</header>
+
+<div class="painel-controles">
+  <div class="linha-controles">
+    <div class="campo-busca">
+      <svg class="icone-busca" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="busca" placeholder="Pesquisar por nome do acólito...">
+    </div>
+    <select id="filtroLocal">
+      <option value="todos">Todas as igrejas</option>
+      <option value="Aparecida">Aparecida</option>
+      <option value="Santa Luzia">Santa Luzia</option>
+    </select>
+    <select id="filtroDia">
+      <option value="todos">Todos os dias</option>
+    </select>
+    <select id="filtroHorario">
+      <option value="todos">Todos os horários</option>
+    </select>
+  </div>
+  <div class="linha-controles" style="margin-top:14px;">
+    <div class="botoes-acao">
+      <button class="btn outline" id="btnLimpar">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        Limpar filtros
+      </button>
+    </div>
+    <div class="botoes-acao" style="margin-left:auto;">
+      <button class="btn" id="btnImprimir">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Imprimir
+      </button>
+      <button class="btn dourado" id="btnPdf">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Exportar PDF
+      </button>
+    </div>
+  </div>
+  <div class="contagem-resultados" id="contagem"></div>
+</div>
+
+<main id="conteudo"></main>
+
+<footer>
+  <p class="frase">Ó Maria, concebida sem pecado, rogai por nós que recorremos a Vós.</p>
+  <p>Paróquia Nossa Senhora Aparecida &amp; Capela Santa Luzia — Escala de Acólitos</p>
+</footer>
+
+<script>
+const DADOS = {
+  "aparecida": [
+    {"local":"Aparecida","data":"2026-08-01","dia_semana":"Sábado","celebracao":"Sábado do Tempo Comum","horarios":[
+      {"hora":"19:00","servidores":[{"funcao":"Cerimoniário","nome":"Pedro Chagas"},{"funcao":"Acólito","nome":"[A DEFINIR]"}]}
+    ]},
+    {"local":"Aparecida","data":"2026-08-02","dia_semana":"Domingo","celebracao":"Domingo do Tempo Comum","horarios":[
+      {"hora":"06:30","servidores":[{"funcao":"Cerimoniário","nome":"Leandro"}]},
+      {"hora":"08:00","servidores":[{"funcao":"Cerimoniário","nome":"Amanda"},{"funcao":"Acólito","nome":"Arthur"}]},
+      {"hora":"10:00","servidores":[{"funcao":"Cerimoniário","nome":"José Leandro"},{"funcao":"Acólito","nome":"Pedro Carminato"}]},
+      {"hora":"18:00","servidores":[{"funcao":"Cerimoniário","nome":"Wendryl"},{"funcao":"Acólito","nome":"[A DEFINIR]"}]}
+    ]},
+    {"local":"Aparecida","data":"2026-08-05","dia_semana":"Quarta","celebracao":null,"horarios":[
+      {"hora":"19:00","servidores":[{"funcao":"Cerimoniário","nome":"Victor Daniel"},{"funcao":"Acólito","nome":"Wendell"}]}
+    ]},
+    {"local":"Aparecida","data":"2026-08-08","dia_semana":"Sábado","celebracao":"Sábado do Tempo Comum","horarios":[
+      {"hora":"19:00","servidores":[{"funcao":"Cerimoniário","nome":"Lucas"},{"funcao":"Acólito","nome":"[A DEFINIR]"}]}
+    ]},
+    {"local":"Aparecida","data":"2026-08-09","dia_semana":"Domingo","celebracao":"Domingo do Tempo Comum","horarios":[
+      {"hora":"06:30","servidores":[{"funcao":"Cerimoniário","nome":"Filipe"},{"funcao":"Acólito","nome":"[A DEFINIR]"}]},
+      {"hora":"08:00","servidores":[{"funcao":"Cerimoniário","nome":"Iago"},{"funcao":"Acólito","nome":"Lavínia"}]},
+      {"hora":"10:00","servidores":[{"funcao":"Cerimoniário","nome":"José Leandro"},{"funcao":"Acólito","nome":"Pedro Carminato"}]},
+      {"hora":"18:00","servidores":[{"funcao":"Cerimoniário","nome":"Wendryl"},{"funcao":"Acólito","nome":"[A DEFINIR]"}]}
+    ]},
+    {"local":"Aparecida","data":"2026-08-12","dia_semana":"Quarta","celebracao":null,"horarios":[
+      {"hora":"19:00","servidores":[{"funcao":"Cerimoniário","nome":"Victor Daniel"},{"funcao":"Acólito","nome":"[A DEFINIR]"}]}
+    ]},
+    {"local":"Aparecida","data":"2026-08-15","dia_semana":"Sábado","celebracao":"Sábado do Tempo Comum","horarios":[
+      {"hora":"19:00","servidores":[{"funcao":"Cerimoniário","nome":"Lavínia"},{"funcao":"Acólito","nome":"Lucas"}]}
+    ]},
+    {"local":"Aparecida","data":"2026-08-16","dia_semana":"Domingo","celebracao":"Domingo do Tempo Comum","horarios":[
+      {"hora":"06:30","servidores":[{"funcao":"Cerimoniário","nome":"Leandro"},{"funcao":"Acólito","nome":"[A DEFINIR]"}]},
+      {"hora":"08:00","evento_especial":"Caminhada da Família","servidores":[]},
+      {"hora":"10:00","evento_especial":"Caminhada da Família","servidores":[]},
+      {"hora":"18:00","servidores":[{"funcao":"Cerimoniário","nome":"Maria Laura"},{"funcao":"Acólito","nome":"[A DEFINIR]"}]}
+    ]},
+    {"local":"Aparecida","data":"2026-08-19","dia_semana":"Quarta","celebracao":null,"horarios":[
+      {"hora":"19:00","servidores":[{"funcao":"Cerimoniário","nome":"Wendell"},{"funcao":"Acólito","nome":"Victor Daniel"}]}
+    ]},
+    {"local":"Aparecida","data":"2026-08-22","dia_semana":"Sábado","celebracao":"Sábado do Tempo Comum","horarios":[
+      {"hora":"19:00","servidores":[{"funcao":"Cerimoniário","nome":"Lavínia"},{"funcao":"Acólito","nome":"[A DEFINIR]"}]}
+    ]},
+    {"local":"Aparecida","data":"2026-08-23","dia_semana":"Domingo","celebracao":"Domingo do Tempo Comum","horarios":[
+      {"hora":"06:30","servidores":[{"funcao":"Cerimoniário","nome":"Filipe"},{"funcao":"Acólito","nome":"[A DEFINIR]"}]},
+      {"hora":"08:00","servidores":[{"funcao":"Cerimoniário","nome":"Isadora"},{"funcao":"Acólito","nome":"Arthur"}]},
+      {"hora":"10:00","servidores":[{"funcao":"Cerimoniário","nome":"Ana Laura"},{"funcao":"Acólito","nome":"Letícia"}]},
+      {"hora":"18:00","servidores":[{"funcao":"Cerimoniário","nome":"Matheus Bezerra"},{"funcao":"Acólito","nome":"Pedro Chagas"}]}
+    ]},
+    {"local":"Aparecida","data":"2026-08-26","dia_semana":"Quarta","celebracao":null,"horarios":[
+      {"hora":"19:00","servidores":[{"funcao":"Cerimoniário","nome":"Victor Daniel"},{"funcao":"Acólito","nome":"[A DEFINIR]"}]}
+    ]},
+    {"local":"Aparecida","data":"2026-08-29","dia_semana":"Sábado","celebracao":"Sábado do Tempo Comum","horarios":[
+      {"hora":"19:00","servidores":[{"funcao":"Cerimoniário","nome":"Amanda"},{"funcao":"Acólito","nome":"Rayane"}]}
+    ]},
+    {"local":"Aparecida","data":"2026-08-30","dia_semana":"Domingo","celebracao":"Domingo do Tempo Comum","horarios":[
+      {"hora":"06:30","servidores":[{"funcao":"Cerimoniário","nome":"Ana Laura"},{"funcao":"Acólito","nome":"[A DEFINIR]"}]},
+      {"hora":"08:00","servidores":[{"funcao":"Cerimoniário","nome":"Wendell"},{"funcao":"Acólito","nome":"Iago"}]},
+      {"hora":"10:00","servidores":[{"funcao":"Cerimoniário","nome":"Letícia"},{"funcao":"Acólito","nome":"Ícaro"}]},
+      {"hora":"18:00","servidores":[{"funcao":"Cerimoniário","nome":"Lucas"},{"funcao":"Acólito","nome":"[A DEFINIR]"}]}
+    ]}
+  ],
+  "santaluzia": [
+    {"local":"Santa Luzia","data":"2026-08-02","dia_semana":"Domingo","celebracao":"Domingo do Tempo Comum","horarios":[
+      {"hora":"19:30","servidores":[{"funcao":"Cerimoniário","nome":"[A DEFINIR]"}]}
+    ]},
+    {"local":"Santa Luzia","data":"2026-08-09","dia_semana":"Domingo","celebracao":"Domingo do Tempo Comum","horarios":[
+      {"hora":"19:30","servidores":[{"funcao":"Cerimoniário","nome":"Ana Rosa"}]}
+    ]},
+    {"local":"Santa Luzia","data":"2026-08-16","dia_semana":"Domingo","celebracao":"Domingo do Tempo Comum","horarios":[
+      {"hora":"19:30","servidores":[{"funcao":"Cerimoniário","nome":"Filipe"}]}
+    ]},
+    {"local":"Santa Luzia","data":"2026-08-23","dia_semana":"Domingo","celebracao":"Domingo do Tempo Comum","horarios":[
+      {"hora":"19:30","servidores":[{"funcao":"Cerimoniário","nome":"Maria Laura"}]}
+    ]},
+    {"local":"Santa Luzia","data":"2026-08-30","dia_semana":"Domingo","celebracao":"Domingo do Tempo Comum","horarios":[
+      {"hora":"19:30","servidores":[{"funcao":"Cerimoniário","nome":"Ana Rosa"}]}
+    ]}
+  ]
+};
+
+const ICONE_IGREJA = `<svg class="icone-igreja" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 L12 6"/><path d="M9 4 L15 4"/><path d="M4 21 L4 11 L12 6 L20 11 L20 21 Z"/><path d="M9 21 L9 15 L15 15 L15 21"/><circle cx="12" cy="10.5" r="1.2" fill="currentColor" stroke="none"/></svg>`;
+
+const ICONE_VAZIO = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`;
+
+function formatarDataCard(iso){
+  const [ano, mes, dia] = iso.split('-').map(Number);
+  return { dia };
+}
+
+function iniciais(nome){
+  if(!nome || nome.includes('DEFINIR')) return '?';
+  const partes = nome.trim().split(/\s+/);
+  if(partes.length === 1) return partes[0].substring(0,2).toUpperCase();
+  return (partes[0][0] + partes[partes.length-1][0]).toUpperCase();
+}
+
+function destacarTexto(texto, termo){
+  if(!termo) return texto;
+  const regex = new RegExp('(' + termo.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'ig');
+  return texto.replace(regex, '<span class="destaque">$1</span>');
+}
+
+function renderizarServidor(s, termoBusca){
+  const definir = s.nome === '[A DEFINIR]';
+  const nomeShow = definir ? 'A definir' : s.nome;
+  return `<li class="${definir ? 'a-definir' : ''}">
+      <span class="avatar-inicial">${iniciais(s.nome)}</span>
+      <span>
+        <span class="nome-servidor">${destacarTexto(nomeShow, termoBusca)}</span>
+        <span class="funcao-servidor"> · ${s.funcao}</span>
+      </span>
+    </li>`;
+}
+
+function renderizarCard(evento, termoBusca){
+  const { dia } = formatarDataCard(evento.data);
+  const horariosHtml = evento.horarios.map(h => {
+    if(h.evento_especial){
+      return `<div class="horario-item">
+        <div class="horario-cabecalho"><span class="badge-hora">${h.hora}</span></div>
+        <div class="evento-especial">✦ ${h.evento_especial}</div>
+      </div>`;
+    }
+    const servidoresHtml = h.servidores.map(s => renderizarServidor(s, termoBusca)).join('');
+    return `<div class="horario-item">
+        <div class="horario-cabecalho"><span class="badge-hora">${h.hora}</span></div>
+        <ul class="lista-servidores">${servidoresHtml}</ul>
+      </div>`;
+  }).join('');
+
+  const celebracaoHtml = evento.celebracao ? `<div class="celebracao">${evento.celebracao.trim()}</div>` : '';
+
+  return `<div class="card" data-local="${evento.local}" data-dia="${evento.dia_semana}" data-data="${evento.data}"
+        data-nomes="${evento.horarios.flatMap(h => (h.servidores||[]).map(s=>s.nome)).join(', ').toLowerCase()}">
+      <div class="card-data">
+        <div>
+          <span class="dia-mes">${dia}</span>
+          <span class="dia-semana">${evento.dia_semana}</span>
+        </div>
+        <span class="selo-mes">Agosto</span>
+      </div>
+      ${celebracaoHtml}
+      ${horariosHtml}
+    </div>`;
+}
+
+function todosEventos(){
+  return [...DADOS.aparecida.map(e=>({...e})), ...DADOS.santaluzia.map(e=>({...e}))];
+}
+
+function popularFiltros(){
+  const dias = [...new Set(todosEventos().map(e => e.dia_semana))];
+  const selDia = document.getElementById('filtroDia');
+  dias.forEach(d => {
+    const opt = document.createElement('option');
+    opt.value = d; opt.textContent = d;
+    selDia.appendChild(opt);
+  });
+
+  const horarios = [...new Set(todosEventos().flatMap(e => e.horarios.map(h => h.hora)))].sort();
+  const selHora = document.getElementById('filtroHorario');
+  horarios.forEach(h => {
+    const opt = document.createElement('option');
+    opt.value = h; opt.textContent = h;
+    selHora.appendChild(opt);
+  });
+}
+
+function renderizarTudo(){
+  const container = document.getElementById('conteudo');
+  container.innerHTML = '';
+
+  const blocoAparecida = `
+    <section class="bloco-local">
+      <div class="titulo-local">${ICONE_IGREJA}<h2>Paróquia Nossa Senhora Aparecida</h2></div>
+      <div class="grade-cards" id="grade-aparecida">
+        ${DADOS.aparecida.map(e => renderizarCard(e, '')).join('')}
+      </div>
+    </section>`;
+
+  const blocoSantaLuzia = `
+    <section class="bloco-local">
+      <div class="titulo-local">${ICONE_IGREJA}<h2>Capela Santa Luzia</h2></div>
+      <div class="grade-cards" id="grade-santaluzia">
+        ${DADOS.santaluzia.map(e => renderizarCard(e, '')).join('')}
+      </div>
+    </section>`;
+
+  container.innerHTML = blocoAparecida + blocoSantaLuzia;
+}
+
+function aplicarFiltros(){
+  const termo = document.getElementById('busca').value.trim().toLowerCase();
+  const local = document.getElementById('filtroLocal').value;
+  const dia = document.getElementById('filtroDia').value;
+  const horario = document.getElementById('filtroHorario').value;
+
+  const cards = document.querySelectorAll('.card');
+  let visiveis = 0;
+
+  cards.forEach(card => {
+    const nomes = card.getAttribute('data-nomes') || '';
+    const cardLocal = card.getAttribute('data-local');
+    const cardDia = card.getAttribute('data-dia');
+
+    let horariosDoCard = [...card.querySelectorAll('.badge-hora')].map(b => b.textContent.trim());
+
+    const matchBusca = !termo || nomes.includes(termo);
+    const matchLocal = local === 'todos' || cardLocal === local;
+    const matchDia = dia === 'todos' || cardDia === dia;
+    const matchHorario = horario === 'todos' || horariosDoCard.includes(horario);
+
+    const mostrar = matchBusca && matchLocal && matchDia && matchHorario;
+    card.classList.toggle('oculto', !mostrar);
+    if(mostrar) visiveis++;
+  });
+
+  // esconder seções sem nenhum card visível
+  document.querySelectorAll('.bloco-local').forEach(sec => {
+    const temVisivel = [...sec.querySelectorAll('.card')].some(c => !c.classList.contains('oculto'));
+    sec.style.display = temVisivel ? '' : 'none';
+  });
+
+  const contagemEl = document.getElementById('contagem');
+  contagemEl.textContent = visiveis === 0
+    ? 'Nenhuma celebração encontrada com esses filtros.'
+    : `${visiveis} celebração${visiveis > 1 ? 'ões' : ''} encontrada${visiveis > 1 ? 's' : ''}`;
+
+  // reaplica destaque de busca nos nomes visíveis
+  if(termo){
+    document.querySelectorAll('.card:not(.oculto) .nome-servidor').forEach(el => {
+      const original = el.textContent;
+      el.innerHTML = destacarTexto(original, termo);
+    });
+  } else {
+    document.querySelectorAll('.card .nome-servidor').forEach(el => {
+      el.innerHTML = el.textContent;
+    });
+  }
+}
+
+// ---------- Tema escuro ----------
+const ICONE_SOL = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5a1 1 0 011 1V7a1 1 0 11-2 0V5.5a1 1 0 011-1zm0 12a3.5 3.5 0 100-7 3.5 3.5 0 000 7zm7.5-4.5a1 1 0 011 1 1 1 0 01-1 1H18a1 1 0 110-2h1.5zM6 13a1 1 0 011 1 1 1 0 01-1 1H4.5a1 1 0 110-2H6zm11.03-5.53a1 1 0 011.42 0 1 1 0 010 1.42l-.71.7a1 1 0 11-1.41-1.4l.7-.72zM6.66 17.24a1 1 0 011.41 0 1 1 0 010 1.42l-.7.7a1 1 0 11-1.42-1.41l.71-.71zM12 17.5a1 1 0 011 1V20a1 1 0 11-2 0v-1.5a1 1 0 011-1zm5.03 1.24a1 1 0 011.42 1.41l-.71.71a1 1 0 01-1.41-1.42l.7-.7zM6.66 6.76a1 1 0 01-1.41-1.42l.7-.7a1 1 0 111.42 1.4l-.71.72z"/></svg>`;
+const ICONE_LUA = `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-5.4-5.4c0-1.81.91-3.4 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>`;
+
+function alternarTema(){
+  const body = document.body;
+  const atual = body.getAttribute('data-theme');
+  const novo = atual === 'light' ? 'dark' : 'light';
+  body.setAttribute('data-theme', novo);
+  document.getElementById('iconeTema').outerHTML = novo === 'dark'
+    ? ICONE_SOL.replace('<svg ', '<svg id="iconeTema" ')
+    : ICONE_LUA.replace('<svg ', '<svg id="iconeTema" ');
+  try{ localStorage_ok = true; }catch(e){}
+}
+
+document.getElementById('btnTema').addEventListener('click', alternarTema);
+document.getElementById('busca').addEventListener('input', aplicarFiltros);
+document.getElementById('filtroLocal').addEventListener('change', aplicarFiltros);
+document.getElementById('filtroDia').addEventListener('change', aplicarFiltros);
+document.getElementById('filtroHorario').addEventListener('change', aplicarFiltros);
+document.getElementById('btnLimpar').addEventListener('click', () => {
+  document.getElementById('busca').value = '';
+  document.getElementById('filtroLocal').value = 'todos';
+  document.getElementById('filtroDia').value = 'todos';
+  document.getElementById('filtroHorario').value = 'todos';
+  aplicarFiltros();
+});
+document.getElementById('btnImprimir').addEventListener('click', () => window.print());
+document.getElementById('btnPdf').addEventListener('click', () => window.print());
+
+renderizarTudo();
+popularFiltros();
+aplicarFiltros();
+</script>
+</body>
+</html>
